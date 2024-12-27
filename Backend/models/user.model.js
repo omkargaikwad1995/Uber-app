@@ -25,6 +25,7 @@ const userSchema = new mongoose.Schema({
         required: true,
         select: false
     },
+    // select: false is used to hide the password from the response like bydefault it will not show the password
     socketId:{
         type: String
     }
@@ -33,7 +34,7 @@ const userSchema = new mongoose.Schema({
 // Fixed typo in method name from generateauthToken to generateAuthToken
 // Fixed _this to this
 userSchema.methods.generateAuthToken = function() {
-    const token = jwt.sign({ _id: this._id }, process.env.JWT_SECRET);
+    const token = jwt.sign({ _id: this._id }, process.env.JWT_SECRET, { expiresIn: '24h' });
     return token;
 };
 
